@@ -1,6 +1,7 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_test_app_for_dreambit/theme.dart';
 import 'package:my_test_app_for_dreambit/ui/home_page.dart';
 
@@ -8,6 +9,7 @@ import 'bloc/list_beer/beer_bloc.dart';
 import 'bloc/search_beer/search_beer_bloc.dart';
 import 'data/repositories/beer_repository.dart';
 import 'data/repositories/search_beer_repository.dart';
+import 'generated/l10n.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,14 +26,20 @@ class MyApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
-            create: (context) => BeerBloc(
-              repository: BeerRepositoryImpl(),
+            create: (context) => BeerBloc(repository: BeerRepositoryImpl(),
             )),
       ],
       child: AdaptiveTheme(
           light: lightTheme,
           initial: AdaptiveThemeMode.light,
           builder: (light, dark) => MaterialApp(
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
             theme: light,
             darkTheme: dark,
             home: ListPage(),

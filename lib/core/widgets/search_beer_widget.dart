@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_test_app_for_dreambit/bloc/search_beer/search_beer_bloc.dart';
 import 'package:my_test_app_for_dreambit/bloc/search_beer/search_beer_event.dart';
 import 'package:my_test_app_for_dreambit/bloc/search_beer/search_beer_state.dart';
-import 'package:my_test_app_for_dreambit/ui/beer_detail.dart';
-
+import 'package:my_test_app_for_dreambit/core/widgets/list_widget.dart';
+import 'package:my_test_app_for_dreambit/generated/l10n.dart';
 
 class BeerSearch extends SearchDelegate<List> {
   SearchBeersBloc searchBeersBloc;
@@ -12,6 +12,13 @@ class BeerSearch extends SearchDelegate<List> {
   BeerSearch({@required this.searchBeersBloc});
 
   String queryString;
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      primaryColor: Colors.blueGrey,
+    );
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -48,42 +55,16 @@ class BeerSearch extends SearchDelegate<List> {
         }
         if (state is SearchError) {
           return Center(
-            child: Text('Failed To Load'),
+            child: Text(S.of(context).failed_to_load),
           );
         }
         if (state is SearchLoaded) {
           if (state.beers.isEmpty) {
             return Center(
-              child: Text('No Results'),
+              child: Text(S.of(context).no_result),
             );
           }
-          return ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  BeerDetailPage(beers: state.beers[index])));
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            height: 90,
-                            width: 100,
-                            child: Image.network(state.beers[index].imageUrl)),
-                        Text(state.beers[index].name),
-                        Text(state.beers[index].tagline),
-                        Text(state.beers[index].firstBrewed),
-                      ],
-                    ),
-                  ),
-                );
-              },
-              itemCount: state.beers.length);
+          return buildBeerList(state.beers);
         }
         return Center(child: CircularProgressIndicator());
       },

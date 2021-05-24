@@ -2,7 +2,7 @@
     package="com.em.test_app_for_dreambit.my_test_app_for_dreambit">
    <application
         android:label="Beer Test App"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -5,4 +5,5 @@ final lightTheme = ThemeData.light().copyWith(
     appBarTheme: AppBarTheme(
         color: Colors.blueGrey
     )
+
 );

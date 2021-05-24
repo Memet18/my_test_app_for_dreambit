@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:my_test_app_for_dreambit/constants.dart';
+
 List<Beer> beerFromJson(String str) => List<Beer>.from(json.decode(str).map((x) => Beer.fromJson(x)));
 
 String beerToJson(List<Beer> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
